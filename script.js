@@ -22,6 +22,7 @@ let listArrays = [];
 // Drag Functionality
 let draggedItem;
 let currentColumn;
+let dragging = false;
 
 // Get Arrays from localStorage if available, set default values if not
 function getSavedColumns() {
@@ -48,6 +49,11 @@ function updateSavedColumns() {
   });
 }
 
+function filterArray(array) {
+  const filteredArray = array.filter(item=> item !== null)
+  return filteredArray
+}
+
 // Create DOM Elements for each list item
 function createItemEl(columnEl, column, item, index) {
   console.log('column:', column);
@@ -69,7 +75,6 @@ function createItemEl(columnEl, column, item, index) {
 function updateDOM() {
   // Check localStorage once
   if (!updatedonLoad) {
-    console.log('yes')
     getSavedColumns();
   }
   // Backlog Column
@@ -77,21 +82,25 @@ function updateDOM() {
   backlogListArray.forEach((backLogItem, index) => {
     createItemEl(backlogList, 0, backLogItem, index)
   })
+  backlogListArray = filterArray(backlogListArray)
   // Progress Column
   progressList.textContent = '';
   progressListArray.forEach((progressListItem, index) => {
     createItemEl(progressList, 1, progressListItem, index)
   })
+  progressListArray = filterArray(progressListArray)
   // Complete Column
   completeList.textContent = '';
   completeListArray.forEach((completeListItem, index) => {
     createItemEl(completeList, 2, completeListItem, index)
   })
+  completeListArray = filterArray(completeListArray)
   // On Hold Column
   onHoldList.textContent = '';
   onHoldListArray.forEach((onHoldListItem, index) => {
     createItemEl(onHoldList, 3, onHoldListItem, index)
   })
+  onHoldListArray = filterArray(onHoldListArray)
   // Run getSavedColumns only once, Update Local Storage
   updatedonLoad = true;
   updateSavedColumns();
@@ -99,7 +108,6 @@ function updateDOM() {
 
 //Update item - Delete if necessary, or update the array value
 function updateItem(id, column) {
-  console.log('u', column, 'i', id)
   const selectedArray = listArrays[column];
   const selectedColumn = listColumns[column].children;
   if (!dragging) {
@@ -161,7 +169,7 @@ function rebuildArrays() {
 //When item starts dragging
 function drag(e) {
   draggedItem = e.target;
-
+  dragging = true;
 }
 
 // When the item enters the column area
@@ -186,6 +194,8 @@ function drop(e) {
   //Add item to column
   const parent = listColumns[currentColumn];
   parent.appendChild(draggedItem)
+  //dragging complete
+  dragging = false
   rebuildArrays();
 }
 
