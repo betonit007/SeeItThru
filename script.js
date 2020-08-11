@@ -32,10 +32,10 @@ function getSavedColumns() {
     completeListArray = JSON.parse(localStorage.completeItems);
     onHoldListArray = JSON.parse(localStorage.onHoldItems);
   } else {
-    backlogListArray = ['Release the course', 'Sit back and relax'];
-    progressListArray = ['Work on projects', 'Listen to music'];
-    completeListArray = ['Being cool', 'Getting stuff done'];
-    onHoldListArray = ['Being uncool'];
+    backlogListArray = ['Complete ReadMe'];
+    progressListArray = ['Protected Route for User Account', 'Test All Routes'];
+    completeListArray = ['Deploy To Cloud', 'Protect API Keys'];
+    onHoldListArray = ['Take a break'];
   }
 }
 
@@ -131,7 +131,6 @@ function addToColumn(column) {
   updateDOM();
 }
 
-
 //Show add item input box
 function showInputBox(column) {
   addBtns[column].style.visibility = 'hidden'
@@ -181,7 +180,6 @@ function dragEnter(column) {
 // Column Allows for the column to drop
 function allowDrop(e) {
   e.preventDefault()
-
 }
 
 //Dropping Item in Column
